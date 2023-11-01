@@ -17,10 +17,10 @@ To use this project, follow these steps:
    ```bash
    cd demo
 
-3. Compile and package the project using Maven::
+3. Compile and package the project using Maven:
    ```bash
    mvn clean package
 
-3. Compile and package the project using Maven::
+4. To run the application, use the following command:
    ```bash
    java -jar target/my-jar-file.jar
