@@ -13,4 +13,25 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>com.example.Main</mainClass>
+                    </manifest>
+                    <manifestEntries>
+                        <Class-Path>lib/dependency.jar</Class-Path>
+                    </manifestEntries>
+                </archive>
+                <finalName>my-jar-file</finalName>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
 </project>
