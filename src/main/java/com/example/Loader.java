@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -15,6 +16,10 @@ public class Loader {
 
         try (InputStream inputStream = Loader.class.getClassLoader().getResourceAsStream(filename);
              Scanner scanner = new Scanner(inputStream)) {
+
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -55,6 +60,10 @@ public class Loader {
         try (InputStream inputStream = Loader.class.getClassLoader().getResourceAsStream(filename);
              Scanner scanner = new Scanner(inputStream)) {
 
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(";");
@@ -88,6 +97,10 @@ public class Loader {
         try (InputStream inputStream = Loader.class.getClassLoader().getResourceAsStream(filename);
              Scanner scanner = new Scanner(inputStream)) {
 
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(";");
@@ -95,21 +108,21 @@ public class Loader {
                     String bookingIDStr = parts[0];
                     String goalIDStr = parts[1];
                     String userIDStr = parts[2];
-                    String startTimeStr = parts[3];
-                    String endTimeStr = parts[4];
+                    String startDateStr = parts[3];
+                    String endDateStr = parts[4];
                     try {
                         int bookingID = Integer.parseInt(bookingIDStr);
                         int goalID = Integer.parseInt(goalIDStr);
                         int userID = Integer.parseInt(userIDStr);
 
-                        LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-                        LocalDateTime endTime = LocalDateTime.parse(endTimeStr, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+                        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        LocalDateTime startDate = LocalDate.parse(startDateStr, dateFormatter).atTime(LocalTime.MIDNIGHT);
+                        LocalDateTime endDate = LocalDate.parse(endDateStr, dateFormatter).atTime(LocalTime.MIDNIGHT);
 
-                        Booking booking = new Booking(bookingID, userID, goalID, startTime, endTime);
+                        Booking booking = new Booking(bookingID, userID, goalID, startDate, endDate);
                         bookings.add(booking);
                     } catch (NumberFormatException | DateTimeParseException e) {
-                        System.err.println("Invalid bookingID, goalID, userID, startTime, or endTime: " +
-                                bookingIDStr + ", " + goalIDStr + ", " + userIDStr + ", " + startTimeStr + ", " + endTimeStr);
+                        System.err.println(e);
                     }
                 }
             }
